@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class conexionDB {
 
-    private static final String URL      = "jdbc:postgresql://localhost:5432/restaurante_db";
-    private static final String USER     = "postgres";
-    private static final String PASSWORD = "1234"; // ← cambia por tu contraseña
+private static final String URL      = System.getenv("DB_URL") != null ? System.getenv("DB_URL") : "jdbc:postgresql://localhost:5432/restaurante_db";
+private static final String USER     = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : "postgres";
+private static final String PASSWORD = System.getenv("DB_PASSWORD") != null ? System.getenv("DB_PASSWORD") : "1234";
 
     public static Connection getConexion() throws SQLException {
         try {
