@@ -117,7 +117,7 @@ public class reservaDAO {
     }
 
     public void eliminarReservasExpiradas() {
-        String sql = "DELETE FROM reserva WHERE (fecha::timestamp + hora::interval) < (NOW() AT TIME ZONE 'America/Guayaquil' - INTERVAL '5 minutes')";
+        String sql = "DELETE FROM reserva WHERE (fecha::timestamp + hora::interval) < (CURRENT_TIMESTAMP AT TIME ZONE 'UTC' AT TIME ZONE 'America/Guayaquil')";
         try (Connection con = conexionDB.getConexion();
             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.executeUpdate();
