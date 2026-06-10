@@ -3,7 +3,7 @@ package com.restaurante.controlador;
 import com.restaurante.dao.reservaDAO;
 import com.restaurante.modelo.reserva;
 import jakarta.inject.Named;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import java.io.Serializable;
@@ -11,9 +11,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import jakarta.annotation.PostConstruct;
+import java.time.LocalDateTime;
 
 @Named("reservaBean")
-@RequestScoped
+@ViewScoped
 public class ReservaBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,6 +32,12 @@ public class ReservaBean implements Serializable {
 
     private List<reserva> listaReservas;
     private reservaDAO dao = new reservaDAO();
+
+    @PostConstruct
+    public void init() {
+        dao.eliminarReservasExpiradas();
+        cargarReservas();
+    }
 
     // ── GUARDAR / ACTUALIZAR ──────────────────────────────
     public void guardar() {

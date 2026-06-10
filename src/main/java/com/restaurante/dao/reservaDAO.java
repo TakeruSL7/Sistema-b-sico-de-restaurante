@@ -115,4 +115,15 @@ public class reservaDAO {
         }
         return 1;
     }
-}
+
+    public void eliminarReservasExpiradas() {
+        String sql = "DELETE FROM reserva WHERE (fecha + hora) < (NOW() - INTERVAL '5 minutes')";
+        try (Connection con = conexionDB.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar expiradas: " + e.getMessage());
+        }
+    }
+
+} 
