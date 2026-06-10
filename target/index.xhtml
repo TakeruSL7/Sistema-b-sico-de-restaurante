@@ -249,8 +249,13 @@
                  onclick="limpiarCamposHTML()" />
                 
                 <!-- Botón Registros abre el modal -->
-                <button type="button" class="btn btn-registros"
-                        onclick="abrirModal()">Registros</button>
+                <h:commandButton value="Registros"
+                                action="#{reservaBean.consultar}"
+                                styleClass="btn btn-registros"
+                                onclick="setTimeout(function(){ abrirModal(); }, 100)">
+                    <f:ajax execute="@form" render="formTabla"
+                            onevent="function(data){ if(data.status==='success') abrirModal(); }"/>
+                </h:commandButton>
 
             </h:form>
         </div>
@@ -293,10 +298,6 @@
 
             <div class="modal-body">
                 <h:form id="formTabla">
-                    <h:commandButton id="btnConsultar"
-                                action="#{reservaBean.consultar}"
-                                style="display:none"
-                                ajax="false"/>
                     <h:dataTable id="tablaReservas"
                                  value="#{reservaBean.listaReservas}" var="r"
                                  styleClass="tabla-registros"
@@ -383,7 +384,6 @@
     function abrirModal() {
         document.getElementById('modalOverlay').classList.add('activo');
         document.body.style.overflow = 'hidden';
-        document.querySelector('[id$="btnConsultar"]').click();
     }
 
     function cerrarModal() {
