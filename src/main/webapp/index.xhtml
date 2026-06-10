@@ -247,16 +247,15 @@
                  immediate="true"
                  styleClass="btn btn-limpiar"
                  onclick="limpiarCamposHTML()" />
-            </h:form>
 
-            <h:form id="formRegistros">
-                <h:commandButton value="Registros"
-                                action="#{reservaBean.consultar}"
-                                styleClass="btn btn-registros">
-                    <f:ajax execute="@form" render=":formTabla" oncomplete="abrirModal()"/>
+                 <h:commandButton value="Registros"
+                 action="#{reservaBean.consultar}"
+                 styleClass="btn btn-registros"
+                 onclick="setTimeout(function(){ abrirModal(); }, 100)">
+                    <f:ajax execute="@form" render="formTabla"
+                            onevent="onEventModal"/>
                 </h:commandButton>
             </h:form>
-            
         </div>
 
         <!-- PLANO -->
@@ -388,6 +387,10 @@
     function cerrarModal() {
         document.getElementById('modalOverlay').classList.remove('activo');
         document.body.style.overflow = '';
+    }
+
+    function onEventModal(data) {
+        if (data.status === 'success') abrirModal();
     }
 
     function cerrarModalFuera(event) {
