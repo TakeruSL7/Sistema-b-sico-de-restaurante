@@ -3,7 +3,7 @@ package com.restaurante.controlador;
 import com.restaurante.dao.reservaDAO;
 import com.restaurante.modelo.reserva;
 import jakarta.inject.Named;
-import jakarta.faces.view.ViewScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import java.io.Serializable;
@@ -15,7 +15,7 @@ import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 
 @Named("reservaBean")
-@ViewScoped
+@SessionScoped
 public class ReservaBean implements Serializable {
 
     private static final long serialVersionUID = 1L;

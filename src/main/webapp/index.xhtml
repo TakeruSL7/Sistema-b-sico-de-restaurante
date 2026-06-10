@@ -293,6 +293,10 @@
 
             <div class="modal-body">
                 <h:form id="formTabla">
+                    <h:commandButton id="btnConsultar"
+                                action="#{reservaBean.consultar}"
+                                style="display:none"
+                                ajax="false"/>
                     <h:dataTable id="tablaReservas"
                                  value="#{reservaBean.listaReservas}" var="r"
                                  styleClass="tabla-registros"
@@ -379,6 +383,7 @@
     function abrirModal() {
         document.getElementById('modalOverlay').classList.add('activo');
         document.body.style.overflow = 'hidden';
+        document.querySelector('[id$="btnConsultar"]').click();
     }
 
     function cerrarModal() {
