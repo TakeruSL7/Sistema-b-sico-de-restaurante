@@ -1,0 +1,5 @@
+com\restaurante\controlador\ReservaBean.class
+com\restaurante\dao\conexionDB.class
+com\restaurante\dao\reservaDAO.class
+com\restaurante\modelo\mesa.class
+com\restaurante\modelo\reserva.class

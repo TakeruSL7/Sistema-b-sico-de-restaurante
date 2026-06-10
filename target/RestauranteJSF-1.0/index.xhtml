@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:ui="jakarta.faces.facelets">
+<h:head>
+    <title>Tentación al Paladar - Reservas</title>
+    <link rel="icon" type="image/png" href="resources/images/logo.png"/>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        .header { background-color: #A1887F; padding: 15px; text-align: center; }
+        .header h1 { font-size: 42px; color: #1a1a1a; text-decoration: underline; letter-spacing: 2px; }
+        .layout { display: flex; min-height: calc(100vh - 120px); }
+        .sidebar { width: 280px; min-width: 280px; background-color: #BCAAA4; padding: 20px 15px; overflow-y: auto; }
+        .sidebar h2 { font-size: 24px; color: #3e2723; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #8d6e63; display:flex; align-items:center; gap:8px; }
+        .field { margin-bottom: 11px; }
+        .field label { display: block; font-size: 14px; color: #3e2723; font-weight: bold; text-decoration: underline; margin-bottom: 3px; }
+        .field input { width: 100%; padding: 5px 8px; border: 1px solid #8d6e63; border-radius: 4px; background: #fff8f5; font-size: 13px; }
+        .field input[readonly] { background: #e8e0dc; color: #555; }
+        .costo-box { background:#fff3e0; border:1px solid #ff9800; border-radius:5px; padding:8px 10px; margin-bottom:10px; font-size:13px; color:#e65100; font-weight:bold; }
+        .btn { padding: 7px 0; font-size: 15px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 7px; }
+        .btn-guardar   { background: #6d4c41; color: white; }
+        .btn-limpiar   { background: #a1887f; color: white; }
+        .btn-registros { background: #4e342e; color: white; }
+        .btn:hover { opacity: 0.85; }
+        .msg-error { color: red; font-weight: bold; padding: 8px; background:#ffebee; border-radius:4px; margin-bottom:8px; display:block; }
+        .msg-ok    { color: green; font-weight: bold; padding: 8px; background:#e8f5e9; border-radius:4px; margin-bottom:8px; display:block; }
+        .plano-wrap { flex: 1; position: relative; overflow: hidden; }
+        .plano-wrap img.plano { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .mesa-btn {
+            position: absolute;
+            background: rgba(255,255,255,0.25);
+            border: 2px solid white;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 6px rgba(0,0,0,0.6);
+            transition: background 0.2s;
+        }
+        .mesa-btn:hover { background: rgba(255,255,255,0.6); color: #3e2723; }
+        .mesa-btn.seleccionada { background: rgba(46,125,50,0.85); border-color: #69f0ae; }
+        .m1  { left:20.3%;  top: 9.6%;  } .m2  { left:30.7%;  top: 9.6%;  }
+        .m3  { left:41.2%;  top: 9.6%;  } .m4  { left:51.6%;  top: 9.6%;  }
+        .m5  { left:19.9%;  top:48.9%;  } .m6  { left:19.9%;  top:67%;  }
+        .m7  { left:35.5%;  top:57.9%;  } .m8  { left:51.5%;  top:41.7%;  }
+        .m9  { left:51.5%;  top:67%;  } .m10 { left:63.3%;  top:41.7%;  }
+        .m11 { left:63.3%;  top:67%;  } .m12 { left:77.3%;  top:27%;  }
+        .m13 { left:77.3%;  top:56.3%;  } .m14 { left:77.3%;  top:85.7%;  }
+        .m15 { left:23.5%;  top:92.5%;  } .m16 { left:32.7%;  top:92.5%;  }
+        .m17 { left:42%;  top:92.5%;  } .m18 { left:55.3%;  top:92.5%;  }
+        .m19 { left:65.6%;  top:92.5%;  }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.activo { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
+        .modal-header {
+            background: #6d4c41;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h2 { font-size: 20px; margin: 0; }
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .modal-close:hover { color: #ffcdd2; }
+        .modal-body { padding: 20px; }
+        .modal-footer { padding: 15px 20px; border-top: 1px solid #ddd; display: flex; justify-content: flex-end; }
+
+        /* TABLA */
+        .tabla-registros { border-collapse: collapse; width: 100%; font-size: 13px; }
+        .tabla-registros th { background: #6d4c41; color: white; padding: 10px 12px; text-align: left; }
+        .tabla-registros td { padding: 8px 12px; border-bottom: 1px solid #f0e6e0; }
+        .tabla-registros tr:hover td { background: #fbe9e7; }
+        .tabla-registros tr:nth-child(even) td { background: #fdf6f3; }
+        .tabla-registros tr:nth-child(even):hover td { background: #fbe9e7; }
+        .btn-elim { background: #c62828; color: white; border: none; border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 12px; }
+        .btn-elim:hover { background: #b71c1c; }
+        .btn-editar { background: #5d4037; color: white; border: none; border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 12px; margin-right: 4px; }
+        .btn-editar:hover { background: #4e342e; }
+        .btn-elim-todas { background: #b71c1c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-elim-todas:hover { background: #c62828; }
+        .sin-registros { text-align: center; padding: 30px; color: #9e9e9e; font-size: 15px; }
+    </style>
+</h:head>
+<h:body>
+
+    <div class="header">
+        <img src="resources/images/Titulo.png" height="80"
+             style="display:block;margin:0 auto" alt="Titulo"
+             onerror="this.style.display='none'"/>
+        <h1>TENTACIÓN AL PALADAR</h1>
+    </div>
+
+    <h:messages globalOnly="true" errorClass="msg-error" infoClass="msg-ok"/>
+
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2>
+                <img src="resources/images/logo.png" height="34" alt=""
+                     onerror="this.style.display='none'"/>
+                Reservación..
+            </h2>
+
+            <h:form id="formReserva">
+
+                <h:panelGroup rendered="#{reservaBean.costoMesa gt 0}">
+                    <div class="costo-box">
+                        Mesa: #{reservaBean.mesaSeleccionada} |
+                        Costo total: $#{reservaBean.costoMesa}
+                    </div>
+                </h:panelGroup>
+
+                <div class="field">
+                    <label>Nombres:</label>
+                    <h:inputText value="#{reservaBean.nombreCliente}"
+                                 placeholder="Ej: Juan Pérez"
+                                 onkeyup="fmtNombre(this)" />
+                </div>
+
+                <div class="field">
+                    <label>Mesa:</label>
+                    <h:inputText value="#{reservaBean.mesaSeleccionada}"
+                                 id="campoMesa"
+                                 placeholder="Seleccione en el plano..."
+                                 style="width:100%;padding:5px 8px;border:1px solid #8d6e63;border-radius:4px;background:#e8e0dc;color:#555;font-size:13px;"
+                                 onkeydown="return false;"
+                                 onpaste="return false;" />
+                </div>
+
+                <div class="field">
+                    <label>N° Personas:</label>
+                    <h:inputText value="#{reservaBean.numPersonas}"
+                                 id="campoPersonas" readonly="true" />
+                </div>
+
+                <div class="field">
+                    <label>Fecha:</label>
+                    <h:inputText value="#{reservaBean.fecha}"
+                                 id="campoFecha"
+                                 style="width:100%;padding:5px 8px;border:1px solid #8d6e63;border-radius:4px;background:#fff8f5;font-size:13px;">
+                        <f:passThroughAttribute name="type" value="date"/>
+                    </h:inputText>
+                </div>
+
+                <div class="field">
+                    <label>Hora (12:00 - 22:00):</label>
+                    <h:inputText value="#{reservaBean.hora}"
+                                 id="campoHora"
+                                 maxlength="5"
+                                 placeholder="13:00"
+                                 onkeyup="fmtHora(this)"
+                                 style="width:100%;padding:5px 8px;border:1px solid #8d6e63;border-radius:4px;background:#fff8f5;font-size:13px;" />
+                </div>
+
+                <div class="field">
+                    <label>Anticipo ($):</label>
+                    <h:inputText value="#{reservaBean.anticipo}"
+                                 id="campoAnticipo"
+                                 style="width:100%;padding:5px 8px;border:1px solid #8d6e63;border-radius:4px;font-size:13px;"
+                                 placeholder="0.0" />
+                </div>
+
+                <h:inputHidden value="#{reservaBean.costoMesa}"   id="costoMesaOculto"/>
+                <h:inputHidden value="#{reservaBean.numPersonas}" id="personasOcultas"/>
+
+                <h:commandButton value="Guardar"
+                                 action="#{reservaBean.guardar}"
+                                 styleClass="btn btn-guardar" />
+                <h:commandButton value="Limpiar"
+                 action="#{reservaBean.limpiar}"
+                 immediate="true"
+                 styleClass="btn btn-limpiar"
+                 onclick="limpiarCamposHTML()" />
+                
+                <!-- Botón Registros abre el modal -->
+                <button type="button" class="btn btn-registros"
+                        onclick="abrirModal()">Registros</button>
+
+            </h:form>
+        </div>
+
+        <!-- PLANO -->
+        <div class="plano-wrap">
+            <img src="resources/images/Restaurante.jpg" class="plano" alt="Plano"/>
+
+            <button type="button" class="mesa-btn m1"  onclick="elegir(this,'M1',4,50)">M1</button>
+            <button type="button" class="mesa-btn m2"  onclick="elegir(this,'M2',4,50)">M2</button>
+            <button type="button" class="mesa-btn m3"  onclick="elegir(this,'M3',4,50)">M3</button>
+            <button type="button" class="mesa-btn m4"  onclick="elegir(this,'M4',4,50)">M4</button>
+            <button type="button" class="mesa-btn m5"  onclick="elegir(this,'M5',4,50)">M5</button>
+            <button type="button" class="mesa-btn m6"  onclick="elegir(this,'M6',4,50)">M6</button>
+            <button type="button" class="mesa-btn m7"  onclick="elegir(this,'M7',10,100)">M7</button>
+            <button type="button" class="mesa-btn m8"  onclick="elegir(this,'M8',4,50)">M8</button>
+            <button type="button" class="mesa-btn m9"  onclick="elegir(this,'M9',4,50)">M9</button>
+            <button type="button" class="mesa-btn m10" onclick="elegir(this,'M10',4,50)">M10</button>
+            <button type="button" class="mesa-btn m11" onclick="elegir(this,'M11',4,50)">M11</button>
+            <button type="button" class="mesa-btn m12" onclick="elegir(this,'M12',4,50)">M12</button>
+            <button type="button" class="mesa-btn m13" onclick="elegir(this,'M13',4,50)">M13</button>
+            <button type="button" class="mesa-btn m14" onclick="elegir(this,'M14',4,50)">M14</button>
+            <button type="button" class="mesa-btn m15" onclick="elegir(this,'M15',4,50)">M15</button>
+            <button type="button" class="mesa-btn m16" onclick="elegir(this,'M16',4,50)">M16</button>
+            <button type="button" class="mesa-btn m17" onclick="elegir(this,'M17',4,50)">M17</button>
+            <button type="button" class="mesa-btn m18" onclick="elegir(this,'M18',4,50)">M18</button>
+            <button type="button" class="mesa-btn m19" onclick="elegir(this,'M19',4,50)">M19</button>
+        </div>
+
+    </div>
+
+    <!-- MODAL DE REGISTROS -->
+    <div class="modal-overlay" id="modalOverlay" onclick="cerrarModalFuera(event)">
+        <div class="modal" id="modalRegistros">
+
+            <div class="modal-header">
+                <h2>📋 Registros de Reservas</h2>
+                <button type="button" class="modal-close" onclick="cerrarModal()">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <h:form id="formTabla">
+                    <h:dataTable id="tablaReservas"
+                                 value="#{reservaBean.listaReservas}" var="r"
+                                 styleClass="tabla-registros"
+                                 columnClasses="col-id,col-cliente,col-mesa,col-personas,col-fecha,col-hora,col-anticipo,col-acciones">
+
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{r.idReserva}
+                        </h:column>
+
+<h:column>
+    <f:facet name="header">Cliente</f:facet>
+    #{r.nombreCliente}
+</h:column>
+
+                        <h:column>
+                            <f:facet name="header">Mesa</f:facet>
+                            #{r.mesa}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Personas</f:facet>
+                            #{r.numPersonas}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Fecha</f:facet>
+                            #{r.fechaFormato}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Hora</f:facet>
+                            #{r.horaFormato}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Anticipo</f:facet>
+                            #{r.anticipoFormato}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Acciones</f:facet>
+                            <h:commandButton value="✏ Editar"
+                                styleClass="btn-editar"
+                                action="#{reservaBean.seleccionar(r)}"
+                                onclick="cerrarModal()" />
+                            <h:commandButton value="🗑 Eliminar"
+                                styleClass="btn-elim"
+                                action="#{reservaBean.eliminar(r.idReserva)}"
+                                onclick="return confirm('¿Eliminar esta reserva?')" />
+                        </h:column>
+
+                    </h:dataTable>
+
+                    <br/>
+                    <h:commandButton value="🗑 Eliminar Todas"
+                                     action="#{reservaBean.eliminarTodas}"
+                                     styleClass="btn-elim-todas"
+                                     onclick="return confirm('¿Eliminar TODAS las reservas?')" />
+                </h:form>
+            </div>
+
+        </div>
+    </div>
+
+<script>
+//<![CDATA[
+    window.onload = function() {
+        var hoy = new Date();
+        var yyyy = hoy.getFullYear();
+        var mm   = String(hoy.getMonth() + 1).padStart(2,'0');
+        var dd   = String(hoy.getDate()).padStart(2,'0');
+        var campoFecha = document.querySelector('[id$="campoFecha"]');
+        if (campoFecha) campoFecha.min = yyyy + '-' + mm + '-' + dd;
+
+        var campoMesa = document.querySelector('[id$="campoMesa"]');
+        if (campoMesa && campoMesa.value) {
+            document.querySelectorAll('.mesa-btn').forEach(function(b) {
+                if (b.textContent.trim() === campoMesa.value) b.classList.add('seleccionada');
+            });
+        }
+    };
+
+    function abrirModal() {
+        document.getElementById('modalOverlay').classList.add('activo');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalOverlay').classList.remove('activo');
+        document.body.style.overflow = '';
+    }
+
+    function cerrarModalFuera(event) {
+        if (event.target === document.getElementById('modalOverlay')) {
+            cerrarModal();
+        }
+    }
+
+    function elegir(btn, codigo, personas, costo) {
+        document.querySelectorAll('.mesa-btn').forEach(function(b) {
+            b.classList.remove('seleccionada');
+        });
+        btn.classList.add('seleccionada');
+
+        var campoMesa       = document.querySelector('[id$="campoMesa"]');
+        var campoPersonas   = document.querySelector('[id$="campoPersonas"]');
+        var campoAnticipo   = document.querySelector('[id$="campoAnticipo"]');
+        var costoOculto     = document.querySelector('[id$="costoMesaOculto"]');
+        var personasOcultas = document.querySelector('[id$="personasOcultas"]');
+
+        if (campoMesa) {
+            campoMesa.removeAttribute('onkeydown');
+            campoMesa.value = codigo;
+            campoMesa.setAttribute('onkeydown','return false;');
+        }
+        if (campoPersonas)   campoPersonas.value   = personas;
+        if (campoAnticipo)   campoAnticipo.value   = '0';
+        if (costoOculto)     costoOculto.value     = costo;
+        if (personasOcultas) personasOcultas.value = personas;
+
+        alert('Mesa ' + codigo + ' seleccionada\nCapacidad: ' + personas + ' personas\nCosto total: $' + costo);
+        if (campoAnticipo) campoAnticipo.focus();
+    }
+
+    function fmtHora(input) {
+        var val = input.value.replace(/[^0-9]/g,'');
+        if (val.length > 2) val = val.substring(0,2) + ':' + val.substring(2,4);
+        input.value = val;
+    }
+
+    function fmtNombre(input) {
+        var pos = input.selectionStart;
+        input.value = input.value.split(' ').map(function(p) {
+            return p.length === 0 ? '' : p.charAt(0).toUpperCase() + p.slice(1).toLowerCase();
+        }).join(' ');
+        input.setSelectionRange(pos, pos);
+    }
+
+    function limpiarCamposHTML() {
+    var campoFecha    = document.querySelector('[id$="campoFecha"]');
+    var campoHora     = document.querySelector('[id$="campoHora"]');
+    var campoMesa     = document.querySelector('[id$="campoMesa"]');
+    var campoAnticipo = document.querySelector('[id$="campoAnticipo"]');
+    var inputs        = document.querySelectorAll('[id$="formReserva"] input[type="text"]');
+
+    if (campoFecha)    campoFecha.value    = '';
+    if (campoHora)     campoHora.value     = '';
+    if (campoMesa)     campoMesa.value     = '';
+    if (campoAnticipo) campoAnticipo.value = '0.0';
+
+    // Limpiar todos los inputs de texto del formulario (incluye nombre)
+    inputs.forEach(function(inp) { inp.value = ''; });
+
+    document.querySelectorAll('.mesa-btn').forEach(function(b) {
+        b.classList.remove('seleccionada');
+    });
+}
+//]]>
+</script>
+
+</h:body>
+</html>
