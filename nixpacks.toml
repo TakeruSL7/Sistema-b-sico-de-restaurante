@@ -1,0 +1,5 @@
+[phases.setup]
+nixPkgs = ["maven", "jdk17"]
+
+[start]
+cmd = "mvn cargo:run"
