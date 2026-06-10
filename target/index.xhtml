@@ -247,16 +247,16 @@
                  immediate="true"
                  styleClass="btn btn-limpiar"
                  onclick="limpiarCamposHTML()" />
-                
-                <!-- Botón Registros abre el modal -->
+            </h:form>
+
+            <h:form id="formRegistros">
                 <h:commandButton value="Registros"
                                 action="#{reservaBean.consultar}"
                                 styleClass="btn btn-registros">
-                    <f:ajax execute="@form" render="formTabla"
-                            oncomplete="abrirModal()"/>
+                    <f:ajax execute="@form" render=":formTabla" oncomplete="abrirModal()"/>
                 </h:commandButton>
-
             </h:form>
+            
         </div>
 
         <!-- PLANO -->
