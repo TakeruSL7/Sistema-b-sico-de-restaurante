@@ -251,10 +251,9 @@
                 <!-- Botón Registros abre el modal -->
                 <h:commandButton value="Registros"
                                 action="#{reservaBean.consultar}"
-                                styleClass="btn btn-registros"
-                                onclick="setTimeout(function(){ abrirModal(); }, 100)">
+                                styleClass="btn btn-registros">
                     <f:ajax execute="@form" render="formTabla"
-                            onevent="function(data){ if(data.status==='success') abrirModal(); }"/>
+                            oncomplete="abrirModal()"/>
                 </h:commandButton>
 
             </h:form>
