@@ -29,7 +29,7 @@ public class reservaDAO {
         String sql = "SELECT r.id_reserva, r.nombre_cliente, m.codigo, " +
                      "r.num_personas, r.fecha, r.hora, r.anticipo " +
                      "FROM reserva r JOIN mesa m ON r.id_mesa = m.id_mesa " +
-                     "ORDER BY r.fecha, r.hora";
+                     "ORDER BY r.id_reserva ASC";
         try (Connection con = conexionDB.getConexion();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
