@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Menú - Tentación al Paladar</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial Black', Gadget, sans-serif;
+            background-color: #261a16;
+            color: #ffffff;}
+
+        .menu-header {
+            background-color: #a0867d; 
+            text-align: center;
+            padding: 40px 20px;
+            color: #000000;
+			text-decoration: underline;            
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .menu-header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .menu-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            text-transform: uppercase;
+            color: rgb(255, 255, 255);
+            border-bottom: 2px solid #694f46;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: #ffffff;
+            color: rgb(30, 20, 17);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #f7f5f4;
+            border: 2px dashed #ba9e93;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            color: #a0867d;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .dish-title {
+            font-size: 1.3rem;
+            margin: 10px 0 5px 0;
+            text-transform: uppercase;
+        }
+
+        .dish-description {
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            color: #555555;
+            line-height: 1.4;
+            margin: 0 0 15px 0;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .dish-price {
+            font-size: 1.2rem;
+            color: #694f46; 
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #f7f5f4;
+            border: 2px dashed #ba9e93; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            color: #a0867d;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden; 
+        }
+
+        .image-placeholder img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }       	
+        
+        .drinks-lists-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            flex-wrap: wrap; 
+        }
+
+        .drinks-column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .drinks-column h3 {
+            font-size: 1.4rem;
+            color: #ba9e93;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-left: 4px solid #694f46;
+            padding-left: 10px;
+        }
+
+        .drinks-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .drink-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 15px;
+            font-family: Arial, sans-serif;
+            font-size: 1.1rem;
+        }
+
+        .drink-name {
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: #2b1d19; 
+            padding-right: 5px;
+            z-index: 2;
+        }
+
+        .drink-dots {
+            flex-grow: 1;
+            border-bottom: 2px dashed rgba(186, 158, 147, 0.4); 
+            margin: 0 10px;
+            margin-bottom: 5px;
+        }
+
+        .drink-price {
+            color: #ba9e93;
+            font-weight: bold;
+            background-color: #2b1d19; /* Cubre los puntos del fondo */
+            padding-left: 5px;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-header">
+        <h1><a  href="home.xhtml">TENTACIÓN AL PALADAR</a></h1>
+    </div>
+
+    <div class="menu-container">
+
+        <div class="menu-section">
+            <h2 class="section-title">Entradas</h2>
+            <div class="grid-container">
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/entrada_enrollado.png" alt="Enrollado Primavera" /></div>
+                    <h3 class="dish-title">Enrollado Primavera</h3>
+                    <p class="dish-description">Rollo crujiente relleno de vegetales y pollo (4 unidades).</p>
+                    <p class="dish-price">$5.00</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/entrada_brochetas.png" alt="Brochetas" /></div>
+                    <h3 class="dish-title">Brochetas</h3>
+                    <p class="dish-description">crujientes de pavo, lomo y cerdo (6 unidades).</p>
+                    <p class="dish-price">$4.80</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/entrada_wantan_frito.png" alt="Wantan Frito Imperial" /></div>
+                    <h3 class="dish-title">Wantan Frito Imperial</h3>
+                    <p class="dish-description">Wantan con relleno de camarón y cerdo (8 unidades).</p>
+                    <p class="dish-price">$8.00</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/entrada_sanduche.png" alt="Sanduche Oriental" /></div>
+                    <h3 class="dish-title">Sanduche Oriental</h3>
+                    <p class="dish-description">Pan pao tostado con lechuga, cerdo desmechado y hongos en salsa especial oriental (2 unidades).</p>
+                    <p class="dish-price">$4.50</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/entrada_ja_kao.png" alt="Ja kao al vapor" /></div>
+                    <h3 class="dish-title">Ja kao al vapor</h3>
+                    <p class="dish-description">Hojas de almidón de harina rellenos de camarón.</p>
+                    <p class="dish-price">$5.00</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/entrada_siu_mai.png" alt="Siu mai al vapor" /></div>
+                    <h3 class="dish-title">Siu mai al vapor</h3>
+                    <p class="dish-description">Hojas de siu mai rellenos de chancho y camarón.</p>
+                    <p class="dish-price">$5.00</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="menu-section">
+            <h2 class="section-title">Platos Principales</h2>
+            <div class="grid-container">
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/principal_ja_tan.png" alt="Arroz Ja tan" /></div>
+                    <h3 class="dish-title">Arroz Ja tan</h3>
+                    <p class="dish-description">Base de arroz frito bañado en nuestra salsa con camarón y clara de huevo.</p>
+                    <p class="dish-price">$12.00</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/principal_fujian.png" alt="Arroz funjian" /></div>
+                    <h3 class="dish-title">Arroz funjian</h3>
+                    <p class="dish-description">Base de arroz frito bañado en nuestra salsa con camarón, chancho y pollo salteado.</p>
+                    <p class="dish-price">$15.00</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/principal_jian_mien.png" alt="dish-title" /></div>
+                    <h3 class="dish-title">Jian Mien</h3>
+                    <p class="dish-description">Tallarin semi frito con pollo, chancho, camarón y vegetales.</p>
+                    <p class="dish-price">$15.00</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/principal_crunch.png" alt="Pollo Crunch" /></div>
+                    <h3 class="dish-title">Pollo Crunch</h3>
+                    <p class="dish-description">Acompañado con arroz, vegetales y salsa agrídulce.</p>
+                    <p class="dish-price">$10.00</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/principal_pollo_teriyaki.png" alt="Pollo en salsa Teriyaki" /></div>
+                    <h3 class="dish-title">Pollo en salsa Teriyaki</h3>
+                    <p class="dish-description">Acompañado con arroz y vegetales.</p>
+                    <p class="dish-price">$12.00</p>
+                </div>
+                <div class="menu-card">
+                    <div class="image-placeholder"><img src="resource/menu/principal_asiatica.png" alt="Costilla Asiática" /></div>
+                    <h3 class="dish-title">Costilla Asiática</h3>
+                    <p class="dish-description">Acompañado con arroz y vegetales.</p>
+                    <p class="dish-price">$15.00</p>
+                </div>
+            </div>
+        </div>
+
+		<div class="menu-section">
+            <h2 class="section-title">Bebidas</h2>
+            
+            <div class="drinks-lists-container">
+                
+                <div class="drinks-column">
+                    <h3>Bebidas Calientes</h3>
+                    <ul class="drinks-list">
+                        <li class="drink-item">
+                            <span class="drink-name">Espresso</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$1.80</span>
+                        </li>
+                        <li class="drink-item">
+                            <span class="drink-name">Espresso doble</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$2.00</span>
+                        </li>
+                        <li class="drink-item">
+                            <span class="drink-name">Americano</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$2.00</span>
+                        </li>
+                        <li class="drink-item">
+                            <span class="drink-name">Cortadito</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$2.50</span>
+                        </li>  
+                        <li class="drink-item">
+                            <span class="drink-name">Capuccino</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$3.00</span>
+                        </li>   
+                        <li class="drink-item">
+                            <span class="drink-name">Mocaccino</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$3.50</span>
+                        </li>      
+                        <li class="drink-item">
+                            <span class="drink-name">Matcha latte</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$3.50</span>
+                        </li>      
+                        <li class="drink-item">
+                            <span class="drink-name">Té negro</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$1.80</span>
+                        </li>                                                                                              
+                    </ul>
+                </div>
+
+                <div class="drinks-column">
+                    <h3>Bebidas Frías</h3>
+                    <ul class="drinks-list">
+                        <li class="drink-item">
+                            <span class="drink-name">Latte frío</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$3.50</span>
+                        </li>
+                        <li class="drink-item">
+                            <span class="drink-name">Jugos</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$2.50</span>
+                        </li>
+                        <li class="drink-item">
+                            <span class="drink-name">Té helado</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$2.50</span>
+                        </li>
+                        <li class="drink-item">
+                            <span class="drink-name">Colas</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$1.60</span>
+                        </li>
+                        <li class="drink-item">
+                            <span class="drink-name">Guitig</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$1.30</span>
+                        </li>
+                        <li class="drink-item">
+                            <span class="drink-name">Agua Natural</span>
+                            <span class="drink-dots"></span>
+                            <span class="drink-price">$1.30</span>
+                        </li>                                                                        
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
