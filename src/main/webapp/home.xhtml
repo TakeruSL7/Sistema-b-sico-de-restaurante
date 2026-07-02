@@ -11,6 +11,13 @@
             font-family: 'Arial Black', Gadget, sans-serif;
             background-color: #a1867d;
             color: #2b1d19;
+            overflow-x: hidden;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari y Opera */
         }
 
         .hero-banner {
@@ -19,7 +26,7 @@
             background-size: cover;
 
             color: #000000;
-			text-decoration: underline;
+            text-decoration: underline;
             position: relative;
             padding: 80px 40px;
             
@@ -30,11 +37,17 @@
             
             overflow: hidden;
             min-height: 300px;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            margin: 0 auto;
         }
 
         .hero-left {
-            max-width: 100%;
+            max-width: 900px;
+            width: 100%;
             z-index: 2;
+            margin: 0 auto;
         }
 
         .hero-title {
